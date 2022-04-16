@@ -1,0 +1,17 @@
+FROM python:3.9
+
+RUN pip install pandas
+RUN pip install pymysql
+RUN pip install cryptography
+
+WORKDIR /work
+
+RUN mkdir output
+
+COPY Tools/Log_trace_analyze/Dependency/dependency_repo.py dependency_repo.py
+COPY Tools/Log_trace_analyze/Dependency/dependency_tag.py dependency_tag.py
+COPY Experimental_tests/Log_metrics_collected/collect_log_metrics.py collect_log_metrics.py
+
+COPY Tools/Log_trace_analyze/Dependency/docker-entrypoint.sh /docker-entrypoint.sh
+
+ENTRYPOINT [ "/docker-entrypoint.sh" ]

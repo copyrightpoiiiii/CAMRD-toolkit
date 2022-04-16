@@ -1,0 +1,17 @@
+FROM python:3.9
+
+RUN pip install pandas
+RUN pip install sqlalchemy
+RUN pip install pymysql
+RUN pip install cryptography
+
+WORKDIR /work
+
+COPY Tools/Log_trace_analyze/Log_aggregation/log_aggregation.py log_aggregation.py
+COPY Tools/Log_trace_analyze/Log_aggregation/match_apicall.py match_apicall.py
+COPY DataSet/Log_trace_sample Log_trace
+
+RUN echo 0 > env.config
+
+ENTRYPOINT [ "python", "log_aggregation.py" ]
+

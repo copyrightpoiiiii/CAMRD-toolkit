@@ -1,0 +1,17 @@
+FROM jeongukjae/python-dind:3.6
+
+RUN pip install pandas
+RUN pip install sqlalchemy
+RUN pip install pymysql
+RUN pip install numpy
+RUN pip install matplotlib
+RUN pip install cryptography
+
+WORKDIR /work
+
+COPY Tools/Deduplication Deduplication
+COPY DataSet/IO_trace Deduplication/DataSet
+
+COPY Tools/Deduplication/deduplication.sh /docker-entrypoint.sh
+
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
