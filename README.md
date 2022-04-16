@@ -4,7 +4,7 @@
 >>And for performance comparison, all traces are available in [*I/O trace*](DataSet/IO_trace).
 >> - Dataset
 >>   - log trace:   
->>        [Serverless_sample](DataSet/Log_trace_sampl/serverless_sample.json)
+>>        [Serverless_sample](DataSet/Log_trace_sample/serverless_sample.json)
 >>
 >>        [AI_sample](DataSet/Log_trace_sample/ai_sample.json)
 >>
@@ -14,11 +14,11 @@
 >>
 >>        [Component_sample](DataSet/Log_trace_sample/component_sample.json)
 >>   - I/O trace:  
->>        [i/o traces of top100 images](DataSet/IO_trace\Accessed_file.csv)
+>>        [i/o traces of top100 images](DataSet/IO_trace/Accessed_file.csv)
 >>
 >>        [i/o latency](DataSet/IO_trace/IO_latency.csv)
 >># Tools
->>In our paper, there are three tools. One is the log trace analysis tool, presented in [*Log trace*](Tools/Log_trace_analyze); one is the registry duplication analysis tool, shown in [*registry duplication analyze*](Tools/Deduplication). And the I/O trace analysis tool, for the copyright reason, is also not open-sourced at this time. When the authorization is available, it will be released. 
+>>In our paper, there are three tools. One is the log trace analysis tool, presented in [*Log trace analyze*](Tools/Log_trace_analyze); one is the registry duplication analysis tool, shown in [*registry duplication analyze*](Tools/Deduplication). And the I/O trace analysis tool, for the copyright reason, is also not open-sourced at this time. When the authorization is available, it will be released. 
 >>- Tools
 >>   - log trace analyze
 >>   - registry duplication analyze
