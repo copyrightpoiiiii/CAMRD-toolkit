@@ -34,26 +34,12 @@ def pic3_1(db):
         layer_size = int(data[0])
         out_data.append(layer_size)
     
-    f = open("output/pic3_1.txt","a+")
-    print(out_data,file=f)
-    f.close()
-
-def pic3(db):
-    query = "select image_repo,image_tag,max(layer_size) as layer_size from "+db+" where request_api = 'Manifest' group by image_repo,image_tag"
-    logs = query_log(query)
-    out_data = []
-
-    for data in logs:
-        
-        layer_size = int(data[2])
-        out_data.append(layer_size)
-    
     f = open("output/pic3.txt","a+")
     print(out_data,file=f)
     f.close()
 
 def pic4(db):
-    query = "select max(layer_size) as layer_size from "+db+" group by layer_digest_id order by layer_size"
+    query = "select max(response_body_length) as layer_size from "+db+" group by layer_digest_id order by layer_size"
     logs = query_log(query)
     out_data = []
 
@@ -86,7 +72,6 @@ def pic7(db):
     out_data = []
 
     for data in logs:
-        
         layer_size = int(data[1])
         out_data.append(layer_size)
     
@@ -229,7 +214,7 @@ def pic16(db):
 
 
 def pic17(db):
-    query = "select b.request_timestamp-a.upload_time as gap from (select image_repo,image_tag,min(request_timestamp) as request_timestamp from "+db+" where request_api = 'Manifest' group by image_repo, image_tag) as b join (select image_repo,image_tag,min(request_timestamp) as upload_time from "+db+" where request_api = 'PutImageManifest' group by image_repo, image_tag) as a on b.image_repo = a.image_repo and b.image_tag = a.image_tag and b.request_timestamp > a.upload_time order by gap desc"
+    query = "select b.request_timestamp-a.upload_time as gap from (select image_repo,image_tag,min(request_timestamp) as request_timestamp from "+db+" where request_api = 'Manifest' and request_method = 'GET' group by image_repo, image_tag) as b join (select image_repo,image_tag,min(request_timestamp) as upload_time from "+db+" where request_api = 'Manifest' and request_method = 'PUT' group by image_repo, image_tag) as a on b.image_repo = a.image_repo and b.image_tag = a.image_tag and b.request_timestamp > a.upload_time order by gap desc"
     logs = query_log(query)
     out_data = []
 
@@ -430,7 +415,6 @@ def pic33(db):
 def run_pic(scenario):
     pic1(scenario)
     pic3_1(scenario)
-    pic3(scenario)
     pic4(scenario)
     pic5(scenario)
     pic7(scenario)
@@ -466,11 +450,12 @@ def main():
                          database="log_aggregation")
     cursor = db_con.cursor()
     
-    run_pic("ai")
     run_pic("serverless")
+    run_pic("ai")
+    run_pic("edge")
     run_pic("component")
     run_pic("video")
-    run_pic("edge")
+    
 
 if __name__ == '__main__':
     main()
