@@ -10,7 +10,9 @@ RUN pip install cryptography
 WORKDIR /work
 
 COPY Tools/Deduplication Deduplication
-COPY DataSet/IO_trace Deduplication/DataSet
+COPY Experimental_tests/Deduplication Deduplication/
+COPY DataSet/IO_trace/Images Deduplication/DockerHub_images
+COPY DataSet/IO_trace/trace Deduplication/DataSet
 
 COPY Tools/Deduplication/deduplication.sh /docker-entrypoint.sh
 

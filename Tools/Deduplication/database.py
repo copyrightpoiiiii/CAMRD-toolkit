@@ -77,9 +77,11 @@ def init(user: str, psw: str, database: str):
     __set_charset(user, psw, database)
     global __engine
     __engine = sqlalchemy.create_engine("mysql+pymysql://%s:%s@%s:3306/%s?charset=utf8" %(user, psw, database, database))
+    # __engine = sqlalchemy.create_engine("mysql+pymysql://%s:%s@%s:3306/%s?charset=utf8" %(user, psw, 'localhost', database))
 
 def __set_charset(user: str, psw: str, database: str):
     conn = pymysql.connect(host=database ,user=user, passwd=psw, port=3306, db='mysql', charset='utf8')
+    # conn = pymysql.connect(host='localhost' ,user=user, passwd=psw, port=3306, db='mysql', charset='utf8')
     cur = conn.cursor()
     cur.execute('use mysql')
     cur.execute('set global character_set_database=utf8')

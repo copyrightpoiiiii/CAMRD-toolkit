@@ -44,12 +44,12 @@ class Load:
         stat['max_size'] = max(stat['max_size'], sz)
 
     def __repositories(self):
-        out = self.__execute_shell_command(' docker images')
+        out = self.__execute_shell_command('docker images')
         repos = {}
         for info in out.split('\n')[1:-1]:
             info = info.split()
             repo, tag = info[0], info[1]
-            if repo not in Dockerhub.get_repositories():
+            if repo not in Dockerhub.get_repos_all():
                 continue
             if repo not in repos:
                 repos[repo] = []
@@ -59,7 +59,7 @@ class Load:
     
     def __images(self, repository, tag):
         image = repository + ':' + tag
-        command = ' docker image inspect ' + image
+        command = 'docker image inspect ' + image
         out = self.__execute_shell_command(command)
         image_info = json.loads(out)
         assert len(image_info) == 1,\
@@ -151,8 +151,6 @@ class Load:
                 size = os.path.getsize(abs_path)
                 if size > image_size:
                     continue
-                if size == 0:
-                    continue
                 md5 = hashlib.md5()
                 with open(abs_path, 'rb') as f:
                     chunk = f.read(chunk_size)
@@ -171,8 +169,8 @@ class Load:
         return res
 
     def into_database(self):
-        os.chdir(self.__DOCKER_PATH)
         cur, total, delta, bound = 0, 0, 0.05, 0
+        candidate_repos, candidate_images = Dockerhub.get_repos_all(), Dockerhub.get_images_all()
         with self.__Session.begin() as session:
 
             def flush_into_database(item):
@@ -183,8 +181,13 @@ class Load:
             repositories = self.__repositories()
             total = len(repositories)
             for repository, tags in repositories.items():
+                if repository not in candidate_repos:
+                    continue
                 repo_id = flush_into_database(db.Repository(name=repository))
                 for tag in tags:
+                    repo_tag = repository + ':' + tag
+                    if repo_tag not in candidate_images:
+                        continue
                     image = self.__images(repository, tag)
                     image_id = flush_into_database(db.Image(
                         tag=image['tag'],
@@ -266,7 +269,7 @@ class Redundancy:
         self.__querier = Query(Session)
 
     def redundancy_file_level(self, data_path: str):
-        repo2flag = Dockerhub.repos2flag()
+        repo2flag = Dockerhub.repo2scenario()
         new_images, old_images = Dockerhub.get_images_with_new_version(), Dockerhub.get_images_with_old_version()
         all_images = self.__querier.images2files_group_by_field('md5')
         new2olds = {}
