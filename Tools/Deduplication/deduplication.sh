@@ -195,4 +195,4 @@ docker pull znc:slim
 docker pull zookeeper:3.6.3
 docker pull zookeeper:latest
 echo "pull completed."
-python main.py --use-db --load-info --plot-result
+python Deduplication/main.py --use-db --load-info --plot-result
