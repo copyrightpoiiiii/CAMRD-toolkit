@@ -70,4 +70,5 @@ def main():
         plt.conversion_size('%s%s' %(__DATA_PATH, 'Conv_size.txt'), '%s%s' %(__FIGURE_PATH, 'Fig17b_Conversion_size.png'))
 
 if __name__ == '__main__':
+    os.chdir('/work/Deduplication/')
     main()
