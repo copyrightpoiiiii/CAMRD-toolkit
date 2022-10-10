@@ -1,12 +1,12 @@
-> This project consists of the dataset, tools, and analysis scripts covered in our paper ***A Comprehensive Analysis of Container Image Traces from Real-world Scenarios***.
+> This project consists of the dataset, tools, and analysis scripts covered in our paper ***Multi-grained Tracing, Analyzing, and Managing for Diverse Container Images***.
 >># Dataset
->>In our paper, we collected a large number of traces from five real-world scenarios (Serverless / AI / Edge / Video analytic / Component) for data analysis and downloaded top100 images from Docker Hub for a performance comparison. Since traces from real-world scenarios are being processed, desensitized and authorized by the trace provider, they cannot be disclosed on the Github at the moment. But we promise that the trace will be open-sourced in a few months. At this time, we can only describe some samples shown in [*Log trace*](DataSet/Log_trace_sample). 
+>>In our paper, we collected a large number of traces from five real-world scenarios (Serverless / ML / Edge / Video analytic / Component) for data analysis and downloaded top100 images from Docker Hub for a performance comparison. Since traces from real-world scenarios are being processed, desensitized and authorized by the trace provider, they cannot be disclosed on the Github at the moment. But we promise that the trace will be open-sourced in a few months. At this time, we can only describe some samples shown in [*Log trace*](DataSet/Log_trace_sample). 
 >>And for performance comparison, all traces are available in [*I/O trace*](DataSet/IO_trace).
 >> - Dataset
 >>   - log trace:   
 >>        [Serverless_sample](DataSet/Log_trace_sample/serverless_sample.json)
 >>
->>        [AI_sample](DataSet/Log_trace_sample/ai_sample.json)
+>>        [ML_sample](DataSet/Log_trace_sample/ai_sample.json)
 >>
 >>        [Edge_sample](DataSet/Log_trace_sample/edge_sample.json)
 >>
